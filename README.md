@@ -54,7 +54,7 @@ python3 -m venv .venv
 
 **3. The skill** (inside `clean-copy-run/`; download a pinned release and verify its checksum)
 ```sh
-V=v1.2.0
+V=v1.2.1
 curl -fsSLO https://github.com/lawoflarge/tgdc-skills/releases/download/$V/tgdc-clean-copy-$V.tar.gz
 curl -fsSLO https://github.com/lawoflarge/tgdc-skills/releases/download/$V/SHA256SUMS
 shasum -a 256 -c SHA256SUMS --ignore-missing
