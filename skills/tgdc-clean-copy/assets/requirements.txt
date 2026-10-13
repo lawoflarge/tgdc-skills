@@ -1,0 +1,8 @@
+pymupdf
+python-stdnum
+msoffcrypto-tool
+extract-msg
+py7zr
+opencv-python-headless
+xlrd
+olefile

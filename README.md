@@ -1,0 +1,100 @@
+# TGDC Skills
+
+Agent skills from [The General Data Company](https://thegeneraldata.com) for our data partners. Each skill is a folder in the open [Agent Skills](https://agentskills.io) format and works with Claude Code, OpenAI Codex, GitHub Copilot, Cursor, Gemini CLI, Qwen Code, and other coding agents that read `SKILL.md`.
+
+## tgdc-clean-copy
+
+Screens a company drive on your own machine and builds a separate folder with an unchanged copy of all your files, except two kinds:
+
+1. **Personal data files:** files whose primary content is personal data of individuals, such as payroll, personnel records, ID copies, CVs, health records, and private correspondence.
+2. **NDAs:** non-disclosure agreements and material you received under one.
+
+Everything else is copied, in every language and every file type: documents, scans, spreadsheets, emails and mailboxes, archives, images, audio, video, CAD, databases. Usually only a small share of files is left out.
+
+**What it never does**
+
+- It never changes, moves, or deletes anything on your drive.
+- It never edits a file. Every copied file is byte-identical to the original and verified by SHA-256.
+- It never sends anything to The General Data Company. During the run, network access is off.
+- It never decides a doubtful file on its own. You get one review list, and anything you leave blank stays out.
+
+**What you get**
+
+- `clean-copy/`: the files to share.
+- `report/`: a run report with counts only (no file names, no content), a checksum list, and an attestation draft for a responsible person to sign.
+- `_private/`: the file-by-file record, review lists, and logs. It stays inside your company.
+
+### Before you start
+
+- Use a business AI account with a data processing agreement and no training on your data (for example Claude Team, Enterprise, or API, or ChatGPT Business or Enterprise), or a local model. On a personal plan the agent runs only in its strictest mode, where it never sees file names or document content.
+- Run on a snapshot or a read-only copy of the drive if you can, on a local disk with free space of at least the drive size plus 20 percent.
+- Share the result only after a data processing agreement with The General Data Company is signed.
+
+### Install
+
+**1. Tools** (once, with internet)
+
+macOS:
+```sh
+brew install python tesseract tesseract-lang poppler qpdf exiftool sevenzip libpst
+```
+Linux (Debian or Ubuntu):
+```sh
+sudo apt install python3-venv tesseract-ocr tesseract-ocr-all poppler-utils qpdf libimage-exiftool-perl p7zip-full pst-utils catdoc bubblewrap socat
+```
+Windows: use WSL2 with Ubuntu and follow the Linux line.
+
+**2. Run folder and Python packages** (on a local disk, outside the drive you screen)
+```sh
+mkdir clean-copy-run && cd clean-copy-run
+python3 -m venv .venv
+.venv/bin/pip install pymupdf python-stdnum msoffcrypto-tool extract-msg py7zr opencv-python-headless xlrd olefile
+```
+
+**3. The skill** (inside `clean-copy-run/`; download a pinned release and verify its checksum)
+```sh
+V=v1.1.0
+curl -fsSLO https://github.com/lawoflarge/tgdc-skills/releases/download/$V/tgdc-clean-copy-$V.tar.gz
+curl -fsSLO https://github.com/lawoflarge/tgdc-skills/releases/download/$V/SHA256SUMS
+shasum -a 256 -c SHA256SUMS --ignore-missing
+mkdir -p <FOLDER> && tar -xzf tgdc-clean-copy-$V.tar.gz -C <FOLDER>
+```
+On Linux, use `sha256sum` instead of `shasum -a 256`.
+
+| Agent | `<FOLDER>` | Start the skill |
+|---|---|---|
+| Claude Code | `.claude/skills` | `/tgdc-clean-copy The source drive is: /path/to/drive` |
+| OpenAI Codex | `.agents/skills` | `$tgdc-clean-copy The source drive is: /path/to/drive` |
+| GitHub Copilot, Cursor, Gemini CLI, Amp, OpenCode, Goose | `.agents/skills` | `/tgdc-clean-copy` or "Use the tgdc-clean-copy skill. The source drive is: /path/to/drive" |
+| Qwen Code | `.qwen/skills` | `/tgdc-clean-copy The source drive is: /path/to/drive` |
+| Trae | `.trae/skills` | "Use the tgdc-clean-copy skill. The source drive is: /path/to/drive" |
+| Any other agent | `.agents/skills` | "Read .agents/skills/tgdc-clean-copy/SKILL.md completely and follow it. The source drive is: /path/to/drive" |
+
+**4. Safe start**
+
+Claude Code: copy `skills/tgdc-clean-copy/assets/claude-settings.json` to `clean-copy-run/.claude/settings.json` and replace `SOURCE` with the drive path without its first slash (`/Volumes/Share` becomes `Edit(//Volumes/Share/**)`). Then run `claude` inside `clean-copy-run/`.
+
+Codex:
+```sh
+codex --sandbox workspace-write --ask-for-approval on-request -c 'web_search="disabled"'
+```
+
+Never pass the drive with `--add-dir`, and deny any request to run outside the sandbox or to allow a network domain during the run.
+
+The full operator guide is in [`skills/tgdc-clean-copy/references/operator-guide.md`](skills/tgdc-clean-copy/references/operator-guide.md).
+
+### During the run
+
+The agent asks you five times: a short interview, a check of about 200 pilot files, one review list, a go before copying, and a final quality check. In between it works on its own. Large drives can take many hours because scanned documents need OCR.
+
+## Security
+
+See [SECURITY.md](SECURITY.md).
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE).
+
+## Contact
+
+The General Data Company · [thegeneraldata.com](https://thegeneraldata.com)

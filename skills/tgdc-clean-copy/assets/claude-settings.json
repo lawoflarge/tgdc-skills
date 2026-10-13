@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "deny": [
+      "WebFetch", "WebSearch",
+      "Bash(rm *)", "Bash(rmdir *)", "Bash(shred *)", "Bash(rsync *)",
+      "Bash(curl *)", "Bash(wget *)", "Bash(scp *)", "Bash(ssh *)", "Bash(git push *)",
+      "Edit(//SOURCE/**)"
+    ],
+    "disableBypassPermissionsMode": "disable"
+  },
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+    "failIfUnavailable": true
+  },
+  "env": {
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "DISABLE_TELEMETRY": "1",
+    "DISABLE_ERROR_REPORTING": "1"
+  }
+}

@@ -1,0 +1,6 @@
+interface:
+  display_name: "TGDC Clean Copy"
+  short_description: "Screen a drive and build a clean copy for TGDC"
+  default_prompt: "Run the TGDC clean copy. The source drive is: <absolute path>"
+policy:
+  allow_implicit_invocation: false
