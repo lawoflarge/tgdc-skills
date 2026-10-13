@@ -48,12 +48,12 @@ Windows: use WSL2 with Ubuntu and follow the Linux line.
 ```sh
 mkdir clean-copy-run && cd clean-copy-run
 python3 -m venv .venv
-.venv/bin/pip install pymupdf python-stdnum msoffcrypto-tool extract-msg py7zr opencv-python-headless xlrd olefile
+.venv/bin/pip install pymupdf python-stdnum msoffcrypto-tool extract-msg py7zr "opencv-python-headless<5" xlrd olefile
 ```
 
 **3. The skill** (inside `clean-copy-run/`; download a pinned release and verify its checksum)
 ```sh
-V=v1.1.0
+V=v1.1.1
 curl -fsSLO https://github.com/lawoflarge/tgdc-skills/releases/download/$V/tgdc-clean-copy-$V.tar.gz
 curl -fsSLO https://github.com/lawoflarge/tgdc-skills/releases/download/$V/SHA256SUMS
 shasum -a 256 -c SHA256SUMS --ignore-missing

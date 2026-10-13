@@ -5,7 +5,7 @@ license: Apache-2.0
 compatibility: Local coding agent with a shell, started in a dedicated run folder outside the source drive. Needs Python 3.10 or newer with assets/requirements.txt, plus tesseract, poppler, qpdf, exiftool, 7-Zip, and readpst. macOS, Linux, or Windows through WSL2. Network is needed only for setup and must be off during the run.
 metadata:
   author: The General Data Company
-  version: "1.1.0"
+  version: "1.1.1"
   homepage: https://thegeneraldata.com
 ---
 

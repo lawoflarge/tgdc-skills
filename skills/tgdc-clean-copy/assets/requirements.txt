@@ -3,6 +3,6 @@ python-stdnum
 msoffcrypto-tool
 extract-msg
 py7zr
-opencv-python-headless
+opencv-python-headless<5
 xlrd
 olefile

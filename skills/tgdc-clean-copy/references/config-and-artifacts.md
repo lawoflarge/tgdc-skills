@@ -36,6 +36,8 @@ clean-copy-run/
 
 **Manifest columns:** manifest_id, relative_path, parent_id (for members of emails, archives, mailboxes, PDFs), size, mtime, sha256, magic_type, extension, placeholder, pages, ocr_pages, readable (yes or no), rule_hits (rule IDs with page numbers), category, verdict (`copy`, `exclude`, `review`, `skipped`), decided_by (`rule`, `operator`, `default`), reason (rule IDs only, no content), copied_sha256.
 
+Write everything in `report/` in American English, whatever language you use in the chat.
+
 **run_report.md** (counts only; no file names, no folder names below the top level, no content):
 1. Run: dates, run duration, agent tool and version, account type, CONTENT_MODE, OS, tool versions (tesseract, poppler, qpdf, exiftool, readpst, Python packages).
 2. Inventory: files and bytes, by type and by language where detected.

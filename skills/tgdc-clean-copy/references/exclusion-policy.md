@@ -21,7 +21,7 @@ Only these files are excluded. The test is the definition used in our data licen
 | Code | Category | Typical files |
 |---|---|---|
 | N1 | NDA documents | Non-disclosure and confidentiality agreements themselves |
-| N2 | Material under NDA | Files received from, or exchanged with, a partner in NDA_PARTNERS about the subject of the NDA; documents that state they are provided under an NDA |
+| N2 | Material under NDA | Files received from, or exchanged with, a partner in NDA_PARTNERS about the confirmed subject of the NDA; documents that state they are provided under an NDA. Normal trade documents with an NDA partner (offers, orders, price lists, invoices, payments, certificates, contracts, emails) are copied unless they concern the NDA subject. |
 
 **Copied (examples, not exhaustive)**
 

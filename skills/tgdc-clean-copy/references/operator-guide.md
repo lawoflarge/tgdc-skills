@@ -37,7 +37,7 @@ Then create the run folder and its Python environment. The run folder must be on
 ```
 mkdir clean-copy-run && cd clean-copy-run
 python3 -m venv .venv
-.venv/bin/pip install pymupdf python-stdnum msoffcrypto-tool extract-msg py7zr opencv-python-headless xlrd olefile
+.venv/bin/pip install pymupdf python-stdnum msoffcrypto-tool extract-msg py7zr "opencv-python-headless<5" xlrd olefile
 ```
 Then install the skill into the run folder, as described in the README (Claude Code: `.claude/skills/`; Codex and most other agents: `.agents/skills/`).
 
