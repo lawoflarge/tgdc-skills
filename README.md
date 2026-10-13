@@ -17,6 +17,7 @@ Everything else is copied, in every language and every file type: documents, sca
 - It never edits a file. Every copied file is byte-identical to the original and verified by SHA-256.
 - It never sends anything to The General Data Company. During the run, network access is off.
 - It never decides a doubtful file on its own. You get one review list, and anything you leave blank stays out.
+- Identity documents are found by a tested script that ships with the skill (`scripts/id_signals.py`), not by code the agent improvises.
 
 **What you get**
 
@@ -53,7 +54,7 @@ python3 -m venv .venv
 
 **3. The skill** (inside `clean-copy-run/`; download a pinned release and verify its checksum)
 ```sh
-V=v1.1.1
+V=v1.2.0
 curl -fsSLO https://github.com/lawoflarge/tgdc-skills/releases/download/$V/tgdc-clean-copy-$V.tar.gz
 curl -fsSLO https://github.com/lawoflarge/tgdc-skills/releases/download/$V/SHA256SUMS
 shasum -a 256 -c SHA256SUMS --ignore-missing
@@ -72,12 +73,13 @@ On Linux, use `sha256sum` instead of `shasum -a 256`.
 
 **4. Safe start**
 
-Claude Code: copy `skills/tgdc-clean-copy/assets/claude-settings.json` to `clean-copy-run/.claude/settings.json` and replace `SOURCE` with the drive path without its first slash (`/Volumes/Share` becomes `Edit(//Volumes/Share/**)`). Then run `claude` inside `clean-copy-run/`.
+Claude Code: copy `skills/tgdc-clean-copy/assets/claude-settings.json` to `clean-copy-run/.claude/settings.json` and replace `SOURCE` with the drive path without its first slash (`/Volumes/Share` becomes `Edit(//Volumes/Share/**)`). Then run `claude --strict-mcp-config` inside `clean-copy-run/` (this switches off MCP servers and connectors, which run outside the sandbox).
 
 Codex:
 ```sh
 codex --sandbox workspace-write --ask-for-approval on-request -c 'web_search="disabled"'
 ```
+If `codex mcp list` shows enabled MCP servers, add `-c mcp_servers.<name>.enabled=false` for each one. If you use a personal `~/.codex/AGENTS.md` or memories, start Codex with a clean home that holds only your login: `mkdir -p ~/.codex-clean && ln -s ~/.codex/auth.json ~/.codex-clean/auth.json`, then prefix the command with `CODEX_HOME=~/.codex-clean`.
 
 Never pass the drive with `--add-dir`, and deny any request to run outside the sandbox or to allow a network domain during the run.
 

@@ -24,7 +24,7 @@ Normalize both the terms and the text before matching: lowercase, fold diacritic
 - Business identifiers are never personal signals: VAT IDs, Brazil CNPJ, SIREN or SIRET, commercial register numbers, EORI, GLN, container numbers.
 
 **Images**
-Detect faces with the OpenCV Haar cascade bundled in `opencv-python-headless` 4.x (version 5 no longer ships it). A face plus a machine-readable zone or identity terms means P4. A face on a scanned page with little readable text goes to the review list. A face in a photo, brochure, or presentation is copied.
+Identity documents are found by the shipped script `scripts/id_signals.py` (Phase 4). It renders every page and image in four orientations, detects faces with the OpenCV Haar cascade bundled in `opencv-python-headless` 4.x (version 5 no longer ships it), reads machine-readable zones and validates their check digits, and tells document pages from photos by their share of white background. A face plus a machine-readable zone or identity terms means P4. A face on a scanned page with little readable text goes to the review list. A face in a photo, brochure, or presentation is copied.
 
 **NDAs**
 - Titles (count only in the file name, the document title, an email subject, or the first lines of page 1; never in an email footer, a signature block, or quoted text): Geheimhaltungsvereinbarung, Vertraulichkeitsvereinbarung, Verschwiegenheitserklärung, non-disclosure agreement, NDA, confidentiality agreement, mutual NDA, accord de confidentialité, acuerdo de confidencialidad, acordo de confidencialidade, termo de confidencialidade, umowa o zachowaniu poufności, geheimhoudingsovereenkomst.

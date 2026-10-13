@@ -69,10 +69,10 @@ Then install the skill into the run folder, as described in the README (Claude C
 ```
 Do not add a `Read` deny rule for the source: the sandboxed scripts must be able to read it. If Claude Code asks to open a source file with its own Read tool, answer no.
 
-Then start Claude Code inside the run folder. Do not add the source with `--add-dir`, because added folders become writable.
+Then start Claude Code inside the run folder, with all MCP servers and connectors switched off (they run outside the sandbox). Do not add the source with `--add-dir`, because added folders become writable.
 ```
 cd clean-copy-run
-claude
+claude --strict-mcp-config
 ```
 
 **Codex CLI.** Start Codex inside the run folder with network and web search off. Do not use `--add-dir` for the source.
@@ -80,9 +80,11 @@ claude
 cd clean-copy-run
 codex --sandbox workspace-write --ask-for-approval on-request -c 'web_search="disabled"'
 ```
-For a fully local run, add `--oss` (requires Ollama with a capable model installed). Then document content never leaves your machine.
+If `codex mcp list` shows enabled MCP servers, switch each one off for this run by adding `-c mcp_servers.<name>.enabled=false` (they run outside the sandbox). For a fully local run, add `--oss` (requires Ollama with a capable model installed). Then document content never leaves your machine.
 
 During the run, deny every request to run a command outside the sandbox or to allow a network domain. One approval would defeat the safety checks.
+
+If your agent has personal global instructions or memory, keep them out of this run. For Codex, start it with a clean home that holds only your login: `mkdir -p ~/.codex-clean && ln -s ~/.codex/auth.json ~/.codex-clean/auth.json`, then prefix the start command with `CODEX_HOME=~/.codex-clean`.
 
 **First message:** in Claude Code `/tgdc-clean-copy The source drive is: <absolute path>`; in Codex `$tgdc-clean-copy The source drive is: <absolute path>`; in other agents `Use the tgdc-clean-copy skill. The source drive is: <absolute path>`.
 

@@ -16,7 +16,7 @@ Between checkpoints, work autonomously. Do not stop to ask about routine steps t
 5. Write `_private/config.json` and show it back.
 
 **Phase 1. Inventory and pilot**
-1. Walk SOURCE without following symlinks or shortcuts. Per file, record in the manifest: manifest ID, relative path, size, modification time, file type by magic bytes, extension, placeholder state, symlink or hard link, and SHA-256. Do not read placeholder files, since reading them triggers a download (Windows attributes `RECALL_ON_DATA_ACCESS`, `RECALL_ON_OPEN`, `OFFLINE`; macOS flag `SF_DATALESS`; Google Docs pointer files such as `.gdoc`).
+1. Walk SOURCE without following symlinks or shortcuts. Per file, record in the manifest: manifest ID, relative path, size, modification time, file type by magic bytes, extension, placeholder state, symlink or hard link, and SHA-256. Check placeholder flags with `os.lstat` before opening any file, and do not read placeholder files, since reading them triggers a download (Windows attributes `RECALL_ON_DATA_ACCESS`, `RECALL_ON_OPEN`, `OFFLINE`; macOS flag `SF_DATALESS`; Google Docs pointer files such as `.gdoc`).
 2. Write the source snapshot `_private/snapshot_before.csv` (path, size, mtime, SHA-256).
 3. Mark OS junk (`.DS_Store`, `Thumbs.db`, `desktop.ini`, `~$*` lock files, `._*`) and online-only placeholders as skipped. They are not copied and are counted separately.
 4. Benchmark extraction and OCR on 200 random pages to estimate run time.
@@ -33,7 +33,8 @@ Apply SKIP_FOLDERS and the folder and file-name gates (B8). Extract metadata: PD
 For every page of every readable file, and for every embedded image, attachment, and mailbox message: use the text layer where it is good. OCR the page if it has under about 200 characters of text, is mostly image, or its text looks like garbage. Use OCR with orientation detection, and for image-heavy pages also run a sparse-text pass on the page rotated 90 and 270 degrees, because rotated stamps and ID cards are missed otherwise. Store page text only in `_private/cache/`.
 
 **Phase 4. Detection and decision**
-Run the detectors in B8 per page and per image, write every hit as a rule ID with page number to the manifest (never the matched text), and apply B5 and B6. Build the employee roster from P1 and P2 files, staff lists, and metadata; keep it only in `_private/`. Use it to find personnel documents elsewhere: a roster name as the subject or addressee, together with a pay, HR, leave, or health term, means P1 to P3. A roster name as sender, contact, or author means nothing.
+First run the shipped identity-document detector `scripts/id_signals.py` on every PDF, image, and Office file, and on every extracted attachment and archive member: write a TSV of manifest ID and absolute path, run `.venv/bin/python <skill folder>/scripts/id_signals.py INPUT.tsv _private/id_signals.csv _private/logs/id_signals.log`, and import the results. A `P4` hint on any page excludes the file as P4; a `review` hint puts it on the review list. Never replace this script with your own; you may add detectors on top of it.
+Then run the detectors in B8 per page and per image, write every hit as a rule ID with page number to the manifest (never the matched text), and apply B5 and B6. Build the employee roster from P1 and P2 files, staff lists, and metadata; keep it only in `_private/`. Use it to find personnel documents elsewhere: a roster name as the subject or addressee, together with a pay, HR, leave, or health term, means P1 to P3. A roster name as sender, contact, or author means nothing.
 If CONTENT_MODE allows, use masked excerpts or the local model only for files the rules could not settle, and record the label and a short reason.
 
 **Checkpoint 3. Review list**
