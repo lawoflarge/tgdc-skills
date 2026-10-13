@@ -5,7 +5,7 @@ license: Apache-2.0
 compatibility: Local coding agent with a shell, started in a dedicated run folder outside the source drive. Needs Python 3.10 or newer with assets/requirements.txt, plus tesseract, poppler, qpdf, exiftool, 7-Zip, and readpst. macOS, Linux, or Windows through WSL2. Network is needed only for setup and must be off during the run.
 metadata:
   author: The General Data Company
-  version: "1.2.1"
+  version: "1.3.0"
   homepage: https://thegeneraldata.com
 ---
 
@@ -18,7 +18,7 @@ You build `clean-copy/` in the run folder: an unchanged copy of every file on th
 - **This skill folder** is the folder that contains this file. Never edit anything in it.
 - **Section labels** used in all files: A1 to A6 are in `references/operator-guide.md`; B1 to B3 and B11 are below; B4 and B10 are in `references/config-and-artifacts.md`; B5 and B6 in `references/exclusion-policy.md`; B7 and B9 in `references/phases.md`; B8 in `references/detection.md`.
 - **Templates:** `assets/claude-settings.json` (settings for Claude Code, see A4) and `assets/requirements.txt` (Python packages, see A3).
-- **Scripts:** `scripts/id_signals.py`, the identity-document detector that Phase 4 requires. Run it; never edit or replace it.
+- **Scripts:** `scripts/id_signals.py` (identity documents) and `scripts/table_signals.py` (tables of people and pay tables), both required in Phase 4. Run them; never edit or replace them.
 
 ## Every session starts here
 

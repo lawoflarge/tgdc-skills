@@ -17,7 +17,7 @@ Everything else is copied, in every language and every file type: documents, sca
 - It never edits a file. Every copied file is byte-identical to the original and verified by SHA-256.
 - It never sends anything to The General Data Company. During the run, network access is off.
 - It never decides a doubtful file on its own. You get one review list, and anything you leave blank stays out.
-- Identity documents are found by a tested script that ships with the skill (`scripts/id_signals.py`), not by code the agent improvises.
+- Identity documents and tables of people are found by tested scripts that ship with the skill (`scripts/id_signals.py`, `scripts/table_signals.py`), not by code the agent improvises.
 
 **What you get**
 
@@ -54,7 +54,7 @@ python3 -m venv .venv
 
 **3. The skill** (inside `clean-copy-run/`; download a pinned release and verify its checksum)
 ```sh
-V=v1.2.1
+V=v1.3.0
 curl -fsSLO https://github.com/lawoflarge/tgdc-skills/releases/download/$V/tgdc-clean-copy-$V.tar.gz
 curl -fsSLO https://github.com/lawoflarge/tgdc-skills/releases/download/$V/SHA256SUMS
 shasum -a 256 -c SHA256SUMS --ignore-missing
